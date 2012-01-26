@@ -21,6 +21,10 @@
 	if (self.path == nil) { self.path = [Path new]; }
 	if (self.app == nil) { self.app = [App new]; }
     
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"app" ofType:@"js" inDirectory:@"public"];
+    NSString *jsCode = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsCode];
+    
     [windowScriptObject setValue:self forKey:kWebScriptNamespace];
 }
 
