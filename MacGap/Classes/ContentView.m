@@ -4,6 +4,8 @@
 
 @interface WebPreferences (WebPreferencesPrivate)
     - (void)_setLocalStorageDatabasePath:(NSString *)path;
+    - (void) setLocalStorageEnabled: (BOOL) localStorageEnabled;
+    - (void) setDatabasesEnabled:(BOOL)databasesEnabled;
 @end
 
 @implementation ContentView
@@ -13,11 +15,12 @@
 - (void) awakeFromNib
 {
     WebPreferences *webPrefs = [WebPreferences standardPreferences];
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *cappBundleName = [mainBundle objectForInfoDictionaryKey:@"CPBundleName"];
+    NSString *cappBundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];    
     NSString *applicationSupportFile = [@"~/Library/Application Support/" stringByExpandingTildeInPath];
     NSString *savePath = [NSString pathWithComponents:[NSArray arrayWithObjects:applicationSupportFile, cappBundleName, @"LocalStorage", nil]];
     [webPrefs _setLocalStorageDatabasePath:savePath];
+    [webPrefs setLocalStorageEnabled:YES];
+    [webPrefs setDatabasesEnabled:YES];
     [self.webView setPreferences:webPrefs];
     
 
@@ -29,6 +32,8 @@
 	[self.webView setPolicyDelegate:self.delegate];	
     [self.webView setDrawsBackground:NO];
     [self.webView setShouldCloseWithWindow:NO];
+    
+    [self.webView setGroupName:@"MacGap"];
 
 }
 
@@ -39,7 +44,16 @@
 	
 	DebugNSLog(@"window width = %f, window height = %f", size.width, size.height);
 	[self.webView setFrame:NSMakeRect(0, 0, size.width, size.height - [[Utils sharedInstance] titleBarHeight:window])];
-    [self.webView stringByEvaluatingJavaScriptFromString:@"var e = document.createEvent('Events'); e.initEvent('orientationchange', true, false); document.dispatchEvent(e); "];
+    [self triggerEvent:@"orientationchange"];
+}
+
+- (void) triggerEvent:(NSString*)type 
+{
+    NSString* script = [NSString stringWithFormat:@"\
+                        var e = document.createEvent('Events'); \
+                        e.initEvent('%@', true, false); document.dispatchEvent(e);", type];
+    [self.webView stringByEvaluatingJavaScriptFromString:script];
+    
 }
 
 @end

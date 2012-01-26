@@ -6,20 +6,16 @@ The MacGap project aims to provide HTML/JS/CSS developers an Xcode project for d
 
 Lion is required to build and run MacGap applications.
 
-To build, make sure you have installed the latest Mac OSX Core Library. Download at [http://developer.apple.com/](http://developer.apple.com/).
-
-Alternatively use the [macgap generator](http://github.com/maccman/macgap-rb).
+Generate apps with the [macgap generator](http://github.com/maccman/macgap-rb), no compile necessary.
 
     gem install macgap    
-    macgap --name MyApp --output ./build ./public
-
-##Usage
-
-Just clone the repository and build in Xcode. The file `public/index.html` is loaded on startup.
+    macgap --name MyApp ./public
 
 ##API
 
 MacGap exposes an object called `macgap` inside JavaScript. You can use it to alter the Dock icon and display Growl notifications, amongst other things. The API is documented below:
+
+App:
 
     // Quit application
     macgap.app.terminate();
@@ -33,32 +29,62 @@ MacGap exposes an object called `macgap` inside JavaScript. You can use it to al
     // Un-hide application
     macgap.app.unhide();
 
-    // Change application's window size and location
-    macgap.app.setWindowFrame({x:0,y:0,width:100,height:200})
-    
     // System bell
     macgap.app.beep();
+    
+    // Open URL in default browser
+    macgap.app.open("http://google.com");
+    
+    // Launch application
+    macgap.app.launch("TextEdit");
+    
+Window:
 
+    // Open a new window
+    macgap.window.open({url:"public/index2.html", width: 400, height: 300});
+
+    // Resize window
+    macgap.window.resize({width: 400, height: 200});
+
+    // Move window (Bottom left is x:0 and y:0)
+    macgap.window.move({x:0, y: 200});
+    
+Path:
+   
     // Path to application
     macgap.path.application;
     
     // Path to application's resources
     macgap.path.resource;
+    
+Dock:
 
     // Set the Dock's badge
     macgap.dock.badge = "10";
+    
+Sound:
 
     // Play a sound
     macgap.sound.play("./my/sound.mp3")
     
     // Play a system sound
     macgap.sound.playSystem("funk");
+    
+Growl:
 
     // Send a Growl notification
     macgap.growl.notify({
       title: "Notify",
       content: "New Message!"
     });
+
+Events:
+
+    //Mac OS X on wake event.
+    document.addEventListener('wake', function(){console.log('Wake!!')}, true);
+      
+    //Mac OS X on sleep event.
+    document.addEventListener('sleep', function(){console.log('Sleep!!')}, true);
     
 ##Offline Patterns
 
@@ -73,3 +99,9 @@ Then use [HTML5 offline APIs](http://www.w3.org/TR/html5/offline.html) to cache 
 ##Attributes
 
 MacGap was forked/ported from Phonegap-mac. It's under the same license (MIT).
+
+##Custom Build
+
+To build, make sure you have installed the latest Mac OSX Core Library. Download at [http://developer.apple.com/](http://developer.apple.com/).
+
+Just clone the repository and build in Xcode. The file `public/index.html` is loaded on startup.

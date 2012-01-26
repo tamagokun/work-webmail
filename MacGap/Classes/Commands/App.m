@@ -1,6 +1,26 @@
 #import "App.h"
 
+#import "JSEventHelper.h"
+
 @implementation App
+
+@synthesize webView;
+
+- (id) initWithWebView:(WebView *) view{
+    self = [super init];
+    
+    if (self) {
+        self.webView = view;
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+                                                               selector: @selector(receiveSleepNotification:) 
+                                                                   name: NSWorkspaceWillSleepNotification object: NULL];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+                                                               selector: @selector(receiveWakeNotification:) 
+                                                                   name: NSWorkspaceDidWakeNotification object: NULL];
+    }
+
+    return self;
+}
 
 - (void) terminate {
     [NSApp terminate:nil];
@@ -22,28 +42,38 @@
     NSBeep();
 }
 
+- (void) open:(NSString*)url {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+}
 
-- (void) setWindowFrame: (NSDictionary *)frame{
-    NSRect rect = NSMakeRect([[frame valueForKey:@"x"] doubleValue],
-                             [[frame valueForKey:@"y"] doubleValue],
-                             [[frame valueForKey:@"width"] doubleValue],
-                             [[frame valueForKey:@"height"] doubleValue]);
-    [[[NSApp windows] objectAtIndex:0] setFrame: rect display: YES];
+- (void) launch:(NSString *)name {
+    [[NSWorkspace sharedWorkspace] launchApplication:name];
+}
+
+- (void)receiveSleepNotification:(NSNotification*)note{
+    [JSEventHelper triggerEvent:@"sleep" forWebView:self.webView];
+}
+
+- (void) receiveWakeNotification:(NSNotification*)note{
+    [JSEventHelper triggerEvent:@"wake" forWebView:self.webView];
+}
+
++ (NSString*) webScriptNameForSelector:(SEL)selector
+{
+	id	result = nil;
+	
+	if (selector == @selector(open:)) {
+		result = @"open";
+	} else if (selector == @selector(launch:)) {
+        result = @"launch";
+    }
+	
+	return result;
 }
 
 + (BOOL) isSelectorExcludedFromWebScript:(SEL)selector
 {
     return NO;
-}
-
-+ (NSString*) webScriptNameForSelector:(SEL)selector{
-	id	result = nil;
-	
-	if (selector == @selector(setWindowFrame:)) {
-		result = @"setWindowFrame";
-	}
-	
-	return result;
 }
 
 + (BOOL) isKeyExcludedFromWebScript:(const char*)name
