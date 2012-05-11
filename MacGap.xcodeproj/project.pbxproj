@@ -12,6 +12,7 @@
 		88C0646614BDEC5800E4BCE2 /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88C0646414BDEC5800E4BCE2 /* Window.xib */; };
 		88C0646D14BDF6A600E4BCE2 /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C0646C14BDF6A600E4BCE2 /* WindowController.m */; };
 		A309170E14D2597A0014E62F /* notes.icns in Resources */ = {isa = PBXBuildFile; fileRef = A309170D14D2597A0014E62F /* notes.icns */; };
+		F031540A15595CB500115BD0 /* DownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F031540915595CB400115BD0 /* DownloadDelegate.m */; };
 		FA32509D14BA813600BF0781 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA32509C14BA813600BF0781 /* WebKit.framework */; };
 		FA3250C314BA85E700BF0781 /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3250BC14BA85E700BF0781 /* ContentView.m */; };
 		FA3250C514BA85E700BF0781 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3250BE14BA85E700BF0781 /* Utils.m */; };
@@ -56,6 +57,8 @@
 		88C0646C14BDF6A600E4BCE2 /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
 		A309170D14D2597A0014E62F /* notes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = notes.icns; sourceTree = SOURCE_ROOT; };
 		A3CCC91D14D0DE3200FF3E9A /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = app.js; path = public/app.js; sourceTree = "<group>"; };
+		F031540815595CB400115BD0 /* DownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadDelegate.h; path = Classes/DownloadDelegate.h; sourceTree = "<group>"; };
+		F031540915595CB400115BD0 /* DownloadDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadDelegate.m; path = Classes/DownloadDelegate.m; sourceTree = "<group>"; };
 		FA32509C14BA813600BF0781 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		FA32509E14BA816E00BF0781 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = MacGap/Growl.framework; sourceTree = "<group>"; };
 		FA3250BA14BA85E700BF0781 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
@@ -78,7 +81,7 @@
 		FA3250DE14BA878D00BF0781 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = MacGap/Growl.framework; sourceTree = "<group>"; };
 		FA3250E414BA883A00BF0781 /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
 		FA3250E614BA8BCE00BF0781 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = SOURCE_ROOT; };
-		FAE451BA14BA79C600190544 /* MacGap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacGap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAE451BA14BA79C600190544 /* MacGap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MacGap.app; path = "Lotus iNotes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE451BE14BA79C600190544 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		FAE451C114BA79C600190544 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		FAE451C214BA79C600190544 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -116,8 +119,10 @@
 				FA3250BC14BA85E700BF0781 /* ContentView.m */,
 				FA3250BF14BA85E700BF0781 /* WebViewDelegate.h */,
 				FA3250C014BA85E700BF0781 /* WebViewDelegate.m */,
-				88C0646B14BDF6A600E4BCE2 /* WindowController.h */,
 				88C0646C14BDF6A600E4BCE2 /* WindowController.m */,
+				88C0646B14BDF6A600E4BCE2 /* WindowController.h */,
+				F031540815595CB400115BD0 /* DownloadDelegate.h */,
+				F031540915595CB400115BD0 /* DownloadDelegate.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 				88C0646014BDE10A00E4BCE2 /* Window.m in Sources */,
 				88C0646D14BDF6A600E4BCE2 /* WindowController.m in Sources */,
 				88746BEE14CCA435001E160E /* JSEventHelper.m in Sources */,
+				F031540A15595CB500115BD0 /* DownloadDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

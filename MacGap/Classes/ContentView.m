@@ -1,6 +1,7 @@
 #import "ContentView.h"
 #import "WebViewDelegate.h"
 #import "AppDelegate.h"
+#import "DownloadDelegate.h"
 
 @interface WebPreferences (WebPreferencesPrivate)
     - (void)_setLocalStorageDatabasePath:(NSString *)path;
@@ -13,7 +14,7 @@
 
 @implementation ContentView
 
-@synthesize webView, delegate;
+@synthesize webView, delegate, downloadDelegate;
 
 - (void) awakeFromNib
 {
@@ -35,14 +36,15 @@
                                           sharedHTTPCookieStorage]; 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
-    [self.webView setApplicationNameForUserAgent: @"MacGap"];
+    [self.webView setCustomUserAgent:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/534.55.3 (KHTML, like Gecko) Version/5.1.3 Safari/534.53.10"];
     
 	self.delegate = [[WebViewDelegate alloc] init];
+    self.downloadDelegate = [[DownloadDelegate alloc] init];
 	[self.webView setFrameLoadDelegate:self.delegate];
 	[self.webView setUIDelegate:self.delegate];
 	[self.webView setResourceLoadDelegate:self.delegate];
-	[self.webView setDownloadDelegate:self.delegate];
-	[self.webView setPolicyDelegate:self.delegate];	
+	[self.webView setDownloadDelegate:self.downloadDelegate];
+	[self.webView setPolicyDelegate:self.delegate];
     [self.webView setDrawsBackground:NO];
     [self.webView setShouldCloseWithWindow:NO];
     

@@ -33,8 +33,10 @@
     
     NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"app" ofType:@"js" inDirectory:@"public"];
     NSString *jsCode = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:nil];
-    [webView stringByEvaluatingJavaScriptFromString:jsCode];
-    
+    if(frame == webView.mainFrame)
+    {
+        [frame.webView stringByEvaluatingJavaScriptFromString:jsCode];
+    }
     [windowScriptObject setValue:self forKey:kWebScriptNamespace];
 }
 
@@ -71,6 +73,16 @@
     [alert setMessageText:message];
     [alert setAlertStyle:NSWarningAlertStyle];
     [alert runModal];
+}
+
+- (BOOL)webView:(WebView *)sender runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:message];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    return [alert runModal] == NSAlertFirstButtonReturn? YES : NO;
 }
 
 /*
@@ -129,7 +141,7 @@
 
 - (WebView *)webView:(WebView *)sender createWebViewWithRequest:(NSURLRequest *)request{
     requestedWindow = [[WindowController alloc] initWithRequest:request];
-    return requestedWindow.contentView.webView;    
+    return requestedWindow.contentView.webView;
 }
 
 - (void)webViewShow:(WebView *)sender{
@@ -154,5 +166,18 @@
 	return NO;
 }
 
+- (void)webView:(WebView *)sender decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener
+{
+    if ([[sender class] canShowMIMEType:type])
+	{
+		// This is a type of file that the webview says it can show.  Let it
+		[listener use];
+	}
+	else
+	{
+		// Download that!
+		[listener download];
+	}
+}
 
 @end
